@@ -19,7 +19,7 @@ def main():
 def dbs():
     return(render_template('dbs.html'))
 
-## Each interface will have one whole new HTML, HTML is used to provide the structure and content of a web page. It is the fundamental building block of the web and works by using "markup" to define elements like headings, paragraphs, images, and links for display in a web browser. (front-end interface)
+## Each interface will have one whole new HTML file (in this case index.html, main,html & dbs.html), HTML is used to provide the structure and content of a web page. It is the fundamental building block of the web and works by using "markup" to define elements like headings, paragraphs, images, and links for display in a web browser. (front-end interface)
 
 if __name__ == "__main__":
     app.run()
