@@ -10,8 +10,18 @@ app = Flask(__name__) # Flask object
 def index():
     return(render_template('index.html'))
 
+
+@app.route("/main", methods = ["GET","POST"]) 
+def main():
+    return(render_template('main.html'))
+
+@app.route("/dbs", methods = ["GET","POST"]) 
+def dbs():
+    return(render_template('dbs.html'))
+
 if __name__ == "__main__":
     app.run()
+
 
 """
 1. Every time we run a Python file, Python creates a hidden variable called "__name__" 
