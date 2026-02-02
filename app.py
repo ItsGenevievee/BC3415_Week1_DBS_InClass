@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request
+# if i were to install smth, "pip install xxx" in TERMINAL
+import joblib
+
+model = joblib.load("DBS_SGD_model.pkl")
 
 app = Flask(__name__) # Flask object
 
@@ -18,6 +22,22 @@ def main():
 @app.route("/dbs", methods = ["GET","POST"]) 
 def dbs():
     return(render_template('dbs.html'))
+
+@app.route("/dbsPrediction", methods = ["GET","POST"]) 
+def dbsPrediction():
+    q = float(request.form.get("q")) #Information from a website always arrives as "Text." Since my model performs math, you must convert that text into a decimal number (float).
+    r = model.predict([[q]]) 
+    r = r[0][0]
+    return(render_template('dbsPrediction.html', r = r)) # the "r = r" second "r" is front end ("r = r" is connecting the Python calculation to the HTML display.)
+
+"""
+>>>> [[q]]
+Machine learning models are designed to handle "batches" of data (like a whole spreadsheet). Even if you only have one number, the model expects a 2D structure (rows and columns).
+- q is just a number.
+- [q] is a list (one row).
+- [[q]] is a nested list (a table with one row and one column).
+"""
+
 
 ## Each interface will have one whole new HTML file (in this case index.html, main,html & dbs.html), HTML is used to provide the structure and content of a web page. It is the fundamental building block of the web and works by using "markup" to define elements like headings, paragraphs, images, and links for display in a web browser. (front-end interface)
 
