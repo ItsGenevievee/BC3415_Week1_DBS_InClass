@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request
 # if i were to install smth, "pip install xxx" in TERMINAL
 import joblib
+from groq import Groq
+import os
+
+client = Groq()
+
 
 model = joblib.load("DBS_SGD_model.pkl")
 
@@ -37,6 +42,24 @@ Machine learning models are designed to handle "batches" of data (like a whole s
 - [q] is a list (one row).
 - [[q]] is a nested list (a table with one row and one column).
 """
+
+@app.route("/chatbot", methods = ["GET","POST"]) 
+def chatbot():
+    return(render_template('chatbot.html'))
+
+@app.route("/reply", methods = ["GET","POST"]) 
+def reply():
+    q = request.form.get("q") 
+    r = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[{
+            "role": "user",
+            "content": q
+        }]
+    )
+    return(render_template('reply.html', r = r.choices[0].message.content))
+
+
 
 
 ## Each interface will have one whole new HTML file (in this case index.html, main,html & dbs.html), HTML is used to provide the structure and content of a web page. It is the fundamental building block of the web and works by using "markup" to define elements like headings, paragraphs, images, and links for display in a web browser. (front-end interface)
